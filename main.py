@@ -1,5 +1,5 @@
 import csv
-
+import enchant
 class Game:
 
     def __init__(self, name):
@@ -41,7 +41,11 @@ class Game:
                 else:
                     differ += 1
         
-
+        # 3. Word has to be a valid English word
+        dict = enchant.Dict("en_US")
+        if not dict.check(word):
+            return False
+                    
         return True
     
 
