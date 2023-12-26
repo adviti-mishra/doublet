@@ -15,7 +15,7 @@ class Game:
         for row in csvreader:
             self.rows.append(row)
     
-    def is_word_valid(self):
+    def is_word_valid(self, word, prev_word):
         # TODO: change
         return True
     
@@ -25,11 +25,12 @@ class Game:
         # code for round 1 only 
         print("ROUND 1 ")
         # start word
-        print(f"START: {self.rows[0][0]}")
+        print(f"START: {self.rows[1][0]}")
         # end word
-        print(f"END: {self.rows[0][1]}")
+        print(f"END: {self.rows[1][1]}")
 
         round_over = False 
+        prev_word = self.rows[1][0]
 
         # round goes on until end word is reached
         while not round_over:
@@ -40,12 +41,12 @@ class Game:
             # 1) word is a valid English word
             # 2) word differs from previous word by 1 letter 
             # 3) word has the same letters as the start word
-            valid_word = self.is_word_valid(word)
+            valid_word = self.is_word_valid(word, prev_word)
             # get user input word until valid word encountered
             while not valid_word:
                 word = input("Please enter a valid word. Your word needs to be a valid English word and needs to differ from the previous word by at most 1 letter ")
                 # validate it
-                valid_word = self.is_word_valid(word)
+                valid_word = self.is_word_valid(word, prev_word)
 
             # now, word is a valid word in the game
             
@@ -54,6 +55,9 @@ class Game:
                 # game won!
                 print("You have won the game!")
                 round_over = True
+            
+            # update prev_word to current word
+            prev_word = word
 
 
         
