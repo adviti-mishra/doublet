@@ -20,7 +20,8 @@ class Game:
         return True
     
     def manage_rounds(self):
-
+        round = 0
+        
         # code for round 1 only 
         print("ROUND 1 ")
         # start word
@@ -28,21 +29,33 @@ class Game:
         # end word
         print(f"END: {self.rows[0][1]}")
 
-        # user input word
-        word = input("Enter next word")
-        # validate it
-        # 1) word is a valid English word
-        # 2) word differs from previous word by 1 letter 
-        # 3) word has the same letters as the start word
-        valid_word = self.is_word_valid(word)
-        # get user input word until valid word encountered
-        while not valid_word:
-            word = input("Please enter a valid word. Your word needs to be a valid English word and needs to differ from the previous word by at most 1 letter ")
-            # validate it
-            valid_word = self.is_word_valid(word)
+        round_over = False 
 
-        # now, word is a valid word in the game
-        
+        # round goes on until end word is reached
+        while not round_over:
+           
+            # user input word
+            word = input("Enter next word")
+            # validate it
+            # 1) word is a valid English word
+            # 2) word differs from previous word by 1 letter 
+            # 3) word has the same letters as the start word
+            valid_word = self.is_word_valid(word)
+            # get user input word until valid word encountered
+            while not valid_word:
+                word = input("Please enter a valid word. Your word needs to be a valid English word and needs to differ from the previous word by at most 1 letter ")
+                # validate it
+                valid_word = self.is_word_valid(word)
+
+            # now, word is a valid word in the game
+            
+            # end word reached 
+            if word == self.rows[0][1]:
+                # game won!
+                print("You have won the game!")
+                round_over = True
+
+
         
         
 
