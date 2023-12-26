@@ -1,3 +1,27 @@
+import csv
+
+class Game:
+
+    def __init__(self, name):
+        # initialize user's name
+        self.name = name 
+        # initialize start_end words
+        self.process_csv()
+
+    def process_csv(self):
+        file = open('start_end.csv')
+        csvreader = csv.reader(file)
+        self.rows = []
+        for row in csvreader:
+            self.rows.append(row)
+    
+
+    name = "user"
+    rows = []
+    
+
+
+
 def main():
     # loop through csv file 
     # print start and end word
