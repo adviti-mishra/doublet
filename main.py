@@ -1,5 +1,6 @@
 import csv
-import enchant
+import enchant as ec
+
 class Game:
 
     def __init__(self, name):
@@ -28,14 +29,14 @@ class Game:
             return False 
         
         # 2. Word has to be a valid English word
-        dict = enchant.Dict("en_US")
+        dict = ec.Dict("en_US")
         if not dict.check(word):
             return False
         
         # 3. words have to differ by at most one letter
 
         # convert words to lists of characters
-        word = list(word.to)
+        word = list(word)
         prev_word = list(prev_word)
 
         differ = 0
@@ -70,7 +71,7 @@ class Game:
         while not round_over:
            
             # user input word
-            word = input("Enter next word")
+            word = input("Enter next word ")
             # validate it
             # 1) word is a valid English word
             # 2) word differs from previous word by 1 letter 
@@ -93,16 +94,6 @@ class Game:
             
             # update prev_word to current word
             prev_word = word
-
-
-        
-        
-
-
-
-
-
-
         
     name = "user"
     rows = []
@@ -119,7 +110,8 @@ def main():
     # if the word is now the end word, set end_game to true
     # if the word is q, set end_game to true
     # print number of intermediate words and game status
-    pass
+    obj = Game("Adviti")
+    obj.manage_round(1)
 
 if __name__=='__main__':
     main()
