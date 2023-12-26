@@ -17,11 +17,33 @@ class Game:
     
     def is_word_valid(self, word, prev_word):
 
-        # lengths have to be the same 
+        # 1. lengths have to be the same 
         if len(word) != len(prev_word):
             return False 
         
+        # 2. words have to differ by at most one letter
+        # preprocess words
+
+        # remove blank spaces and convert to upper case
+        word = word.strip().upper()
+        prev_word = prev_word.strip().upper()
+
+        # convert words to lists of characters
+        word = list(word.to)
+        prev_word = list(prev_word)
+
+        differ = 0
+        for char_word, char_prev_word in zip(word,prev_word):
+            if char_word != char_prev_word:
+                # already differs somewhere
+                if differ == 1:
+                    return False
+                else:
+                    differ += 1
+        
+
         return True
+    
 
 
     
