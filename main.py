@@ -19,18 +19,19 @@ class Game:
         # TODO: change
         return True
     
-    def manage_rounds(self):
-        round = 0
-        
+    def manage_round(self, round):
+        start_word = self.rows[round][0]
+        end_word = self.rows[round][1]
+
         # code for round 1 only 
-        print("ROUND 1 ")
+        print(f"ROUND {round}")
         # start word
-        print(f"START: {self.rows[1][0]}")
+        print(f"START: {start_word}")
         # end word
-        print(f"END: {self.rows[1][1]}")
+        print(f"END: {end_word}")
 
         round_over = False 
-        prev_word = self.rows[1][0]
+        prev_word = start_word
 
         # round goes on until end word is reached
         while not round_over:
@@ -51,10 +52,11 @@ class Game:
             # now, word is a valid word in the game
             
             # end word reached 
-            if word == self.rows[0][1]:
+            if word == end_word:
                 # game won!
                 print("You have won the game!")
                 round_over = True
+                continue
             
             # update prev_word to current word
             prev_word = word
