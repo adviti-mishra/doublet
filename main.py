@@ -15,7 +15,19 @@ class Game:
         for row in csvreader:
             self.rows.append(row)
     
+    def manage_rounds(self):
+        # code for round 1 only 
+        print("ROUND 1 ")
+        # start word
+        print(f"START: {self.rows[0][0]}")
+        # end word
+        print(f"END: {self.rows[0][1]}")
 
+
+
+
+
+        
     name = "user"
     rows = []
     
