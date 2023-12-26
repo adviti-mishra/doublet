@@ -16,8 +16,14 @@ class Game:
             self.rows.append(row)
     
     def is_word_valid(self, word, prev_word):
-        # TODO: change
+
+        # lengths have to be the same 
+        if len(word) != len(prev_word):
+            return False 
+        
         return True
+
+
     
     def manage_round(self, round):
         start_word = self.rows[round][0]
@@ -41,7 +47,7 @@ class Game:
             # validate it
             # 1) word is a valid English word
             # 2) word differs from previous word by 1 letter 
-            # 3) word has the same letters as the start word
+            # 3) word has the same number of letters as the start word
             valid_word = self.is_word_valid(word, prev_word)
             # get user input word until valid word encountered
             while not valid_word:
