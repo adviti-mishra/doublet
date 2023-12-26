@@ -17,16 +17,22 @@ class Game:
     
     def is_word_valid(self, word, prev_word):
 
-        # 1. lengths have to be the same 
-        if len(word) != len(prev_word):
-            return False 
-        
-        # 2. words have to differ by at most one letter
         # preprocess words
 
         # remove blank spaces and convert to upper case
         word = word.strip().upper()
         prev_word = prev_word.strip().upper()
+
+        # 1. lengths have to be the same 
+        if len(word) != len(prev_word):
+            return False 
+        
+        # 2. Word has to be a valid English word
+        dict = enchant.Dict("en_US")
+        if not dict.check(word):
+            return False
+        
+        # 3. words have to differ by at most one letter
 
         # convert words to lists of characters
         word = list(word.to)
@@ -41,11 +47,6 @@ class Game:
                 else:
                     differ += 1
         
-        # 3. Word has to be a valid English word
-        dict = enchant.Dict("en_US")
-        if not dict.check(word):
-            return False
-                    
         return True
     
 
