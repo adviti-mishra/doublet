@@ -1,23 +1,28 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   height: 100vh; /* Centers content vertically on the page */
   padding-left: 20px; /* Add some left padding for spacing */
-  text-align: left;
+  text-align: center;
   margin: 0 auto; /* Center the container horizontally */
   max-width: 600px; /* Optionally limit the container width */
 }
 
 .input-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between; /* Horizontally spaced */
-  margin-bottom: 10px; /* Add some margin between input containers */
+  flex-direction: column;
+  gap: 10px; /* Add some margin between input containers */
 }
 
-input {
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between input and buttons */
+}
+
+.input-and-buttons {
   margin-right: 10px; /* Add some spacing between input and buttons */
 }
 
@@ -35,4 +40,5 @@ button:hover {
 
 button.plus {
   margin-right: 10px; /* Adjust as needed */
+  margin-left: 10px;
 }

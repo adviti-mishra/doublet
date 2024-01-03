@@ -105,23 +105,27 @@ const Game: React.FC = () => {
     <div className="container">
       <h1> Game Level: {levelData.levelId} </h1>
       <p> Start word: {levelData.startWord} </p>
-      {words.map((word: string, index: number) => (
-        <div key={index} className="input-container">
-          <input
-            type="text"
-            value={word}
-            onChange={(e) => handleChange(e.target.value)}
-          ></input>
-          {index == words.length - 1 && (
-            <button className="plus" onClick={handleAddWord}>
-              +
-            </button>
-          )}
-          {index !== 0 && index === words.length - 1 && (
-            <button onClick={handleDeleteWord}>-</button>
-          )}
-        </div>
-      ))}
+      <div className="input-container">
+        {words.map((word: string, index: number) => (
+          <div key={index} className="input-wrapper">
+            <div className="input-and-buttons">
+              <input
+                type="text"
+                value={word}
+                onChange={(e) => handleChange(e.target.value)}
+              ></input>
+              {index == words.length - 1 && (
+                <button className="plus" onClick={handleAddWord}>
+                  +
+                </button>
+              )}
+              {index !== 0 && index === words.length - 1 && (
+                <button onClick={handleDeleteWord}>-</button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
       <p> End word: {levelData.endWord} </p>
     </div>
   );
