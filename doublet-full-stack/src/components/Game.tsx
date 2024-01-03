@@ -53,6 +53,7 @@ const Game: React.FC = () => {
         // clear out words
         setWords([]);
         // update to next level
+        setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
       } else {
         // add an empty word to the list of input words
         setWords([...words, ""]);
