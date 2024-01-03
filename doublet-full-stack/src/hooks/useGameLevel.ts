@@ -32,8 +32,13 @@ export const useGameLevel = (levelId: string) => {
     // initiate handling of state of levelData
     fetchLevelData();
     */
-    let data = { levelId: levelId, startWord: "FOUR", endWord: "FIVE" };
-    setLevelData(data);
+    if (levelId == "1") {
+      let data = { levelId: levelId, startWord: "PIG", endWord: "STY" };
+      setLevelData(data);
+    } else {
+      let data = { levelId: levelId, startWord: "FOUR", endWord: "FIVE" };
+      setLevelData(data);
+    }
     // whenever levelData changes
   }, [levelData]);
 
