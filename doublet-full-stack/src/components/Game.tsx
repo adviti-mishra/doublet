@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useGameLevel } from "@/hooks/useGameLevel";
 import { GameState } from "@/interfaces/GameState";
+import "../Game.css";
 
 const Game: React.FC = () => {
   // store current state of winning
@@ -51,7 +52,8 @@ const Game: React.FC = () => {
         // mark isWin as true
         setIsWin(true);
         // clear out words
-        setWords([]);
+        setWords([""]);
+
         // update to next level
         setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
       } else {
@@ -101,20 +103,24 @@ const Game: React.FC = () => {
 
   // print the start word and end word
   return (
-    <div>
+    <div className="container">
       <h1> Game Level: {levelData.levelId} </h1>
       <p> Start word: {levelData.startWord} </p>
       {words.map((word: string, index: number) => (
-        <div key={index}>
+        <div key={index} className="input-container">
           <input
             type="text"
             value={word}
             onChange={(e) => handleChange(e.target.value)}
           ></input>
+          <button className="plus" onClick={handleAddWord}>
+            +
+          </button>
+          {index === words.length - 1 && (
+            <button onClick={handleDeleteWord}>-</button>
+          )}
         </div>
       ))}
-      <button onClick={handleAddWord}>+</button>
-      {words.length > 1 && <button onClick={handleDeleteWord}>-</button>}
       <p> End word: {levelData.endWord} </p>
     </div>
   );

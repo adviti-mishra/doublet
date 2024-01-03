@@ -1,10 +1,11 @@
 import React from "react";
 import Game from "../src/components/Game";
+import "../src/Banner.css";
 
 const Home: React.FC = () => {
   return (
     <div>
-      <h1> Welcome to Doublet! </h1>
+      <div className="banner"> Doublet </div>
       <Game />
     </div>
   );

@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100vh; /* Centers content vertically on the page */
+  padding-left: 20px; /* Add some left padding for spacing */
+  text-align: left;
+  margin: 0 auto; /* Center the container horizontally */
+  max-width: 600px; /* Optionally limit the container width */
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Horizontally spaced */
+  margin-bottom: 10px; /* Add some margin between input containers */
+}
+
+input {
+  margin-right: 10px; /* Add some spacing between input and buttons */
+}
+
+button {
+  background-color: #333; /* Add your preferred button styles */
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #333; /* Change the button color on hover */
+}
+
+button.plus {
+  margin-right: 10px; /* Adjust as needed */
+}

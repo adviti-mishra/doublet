@@ -1,0 +1,12 @@
+.banner {
+  background-color: #333; /* Set your preferred background color */
+  color: #fff; /* Set your preferred text color */
+  padding: 20px 0; /* Increase padding at the top and bottom */
+  font-size: 24px; /* Increase the font size */
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /*z-index: 100; /* Set a higher z-index to ensure the banner is above other content */
+}
