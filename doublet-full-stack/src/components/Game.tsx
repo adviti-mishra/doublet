@@ -44,12 +44,16 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
     if (secondLastWord != undefined && isValidWord(lastWord, secondLastWord)) {
       // add an empty word to the list of input words
       setWords([...words, ""]);
-    } else {
-      alert("Please enter a valid word");
     }
   };
 
   const isValidWord = (lastWord: string, secondLastWord: string): boolean => {
+    // word is not the same
+    const sameWord = lastWord === secondLastWord;
+    if (sameWord === true) {
+      alert("Please make sure you type a word different from the previous one");
+      return false;
+    }
     // word length is the same
     const lengthCheck = lastWord.length == secondLastWord.length;
     if (lengthCheck === false) {
@@ -96,7 +100,7 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
         </div>
       ))}
       <button onClick={handleAddWord}>+</button>
-      <button onClick={handleDeleteWord}>-</button>
+      {words.length > 1 && <button onClick={handleDeleteWord}>-</button>}
       <p> End word: {levelData.endWord} </p>
     </div>
   );
