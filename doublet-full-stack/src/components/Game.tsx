@@ -3,8 +3,6 @@ import { useGameLevel } from "@/hooks/useGameLevel";
 import { GameState } from "@/interfaces/GameState";
 
 const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
-  // store current state of words inputted
-  const [words, setWords] = useState<string[]>([""]);
   // store current state of the Game (current word, isWin)
   const [gameState, setGameState] = useState<GameState>({
     currentWord: "",
@@ -14,13 +12,25 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
   // store levelData
   const levelData = useGameLevel(levelId);
 
+  // store current state of words inputted
+  const [words, setWords] = useState<string[]>([""]);
+
   // reflect upper case input in list of words
-  const handleChange = (index: number, value: string) => {
+  const handleChange = (value: string) => {
     // shallow copy of words
     const newWords = [...words];
     // adding new input in upper case
-    newWords[index] = value.toUpperCase();
+    newWords[words.length - 1] = value.toUpperCase();
     // reflecting it in the list of words
+    setWords(newWords);
+  };
+
+  const handleDeleteWord = () => {
+    // shallow copy of words
+    const newWords = [...words];
+    // delete most recent word
+    newWords.splice(newWords.length - 1, 1);
+    // update state of words
     setWords(newWords);
   };
 
@@ -45,11 +55,12 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
           <input
             type="text"
             value={word}
-            onChange={(e) => handleChange(index, e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
           ></input>
         </div>
       ))}
       <button onClick={handleAddWord}>+</button>
+      <button onClick={handleDeleteWord}>-</button>
       <p> End word: {levelData.endWord} </p>
     </div>
   );
