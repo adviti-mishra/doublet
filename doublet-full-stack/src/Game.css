@@ -22,6 +22,10 @@
   justify-content: space-between; /* Space between input and buttons */
 }
 
+.left-aligned {
+  text-align: left;
+}
+
 .input-and-buttons {
   margin-right: 10px; /* Add some spacing between input and buttons */
 }

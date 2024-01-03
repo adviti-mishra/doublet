@@ -105,7 +105,9 @@ const Game: React.FC = () => {
     <div className="container">
       <h1> Game Level: {levelData.levelId} </h1>
       <p> Start word: {levelData.startWord} </p>
+      <p> End word: {levelData.endWord} </p>
       <div className="input-container">
+        <p className="left-aligned">{levelData.startWord}</p>
         {words.map((word: string, index: number) => (
           <div key={index} className="input-wrapper">
             <div className="input-and-buttons">
@@ -125,8 +127,8 @@ const Game: React.FC = () => {
             </div>
           </div>
         ))}
+        <p className="left-aligned">{levelData.endWord}</p>
       </div>
-      <p> End word: {levelData.endWord} </p>
     </div>
   );
 };
