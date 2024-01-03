@@ -4,10 +4,7 @@ import { GameState } from "@/interfaces/GameState";
 
 const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
   // store current state of the Game (current word, isWin)
-  const [gameState, setGameState] = useState<GameState>({
-    currentWord: "",
-    isWin: false,
-  });
+  const [isWin, setIsWin] = useState<boolean>(false);
 
   // store levelData
   const levelData = useGameLevel(levelId);
@@ -35,6 +32,9 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
   };
 
   const handleAddWord = () => {
+    if (isWin) {
+      return;
+    }
     // access the last word
     const lastWord = words[words.length - 1];
     // access the second last word
@@ -42,8 +42,19 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
       words.length > 1 ? words[words.length - 2] : levelData?.startWord;
     // if valid,
     if (secondLastWord != undefined && isValidWord(lastWord, secondLastWord)) {
-      // add an empty word to the list of input words
-      setWords([...words, ""]);
+      // is end word?
+      const isWin = lastWord === levelData?.endWord;
+      if (isWin === true) {
+        alert("Congratulations! You won this level!");
+        // mark isWin as true
+        setIsWin(true);
+        // clear out words
+        setWords([]);
+        // update to next level
+      } else {
+        // add an empty word to the list of input words
+        setWords([...words, ""]);
+      }
     }
   };
 
