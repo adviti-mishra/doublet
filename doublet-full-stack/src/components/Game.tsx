@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useGameLevel } from "@/hooks/useGameLevel";
 import { GameState } from "@/interfaces/GameState";
 
-const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
-  // store current state of the Game (current word, isWin)
+const Game: React.FC = () => {
+  // store current state of winning
   const [isWin, setIsWin] = useState<boolean>(false);
+  // store current state of levelId
+  const [currentLevelId, setCurrentlevelId] = useState<string>("1");
 
   // store levelData
-  const levelData = useGameLevel(levelId);
+  const levelData = useGameLevel(currentLevelId);
 
   // store current state of words inputted
   const [words, setWords] = useState<string[]>([""]);
