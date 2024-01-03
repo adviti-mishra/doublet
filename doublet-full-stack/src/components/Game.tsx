@@ -30,16 +30,52 @@ const Game: React.FC<{ levelId: string }> = ({ levelId }) => {
     const newWords = [...words];
     // delete most recent word
     newWords.splice(newWords.length - 1, 1);
-    // update state of words
+    // reflecting it in the list of words
     setWords(newWords);
   };
 
   const handleAddWord = () => {
     // access the last word
     const lastWord = words[words.length - 1];
+    // access the second last word
+    const secondLastWord =
+      words.length > 1 ? words[words.length - 2] : levelData?.startWord;
     // if valid,
-    // add an empty word to the list of input words
-    setWords([...words, ""]);
+    if (secondLastWord != undefined && isValidWord(lastWord, secondLastWord)) {
+      // add an empty word to the list of input words
+      setWords([...words, ""]);
+    } else {
+      alert("Please enter a valid word");
+    }
+  };
+
+  const isValidWord = (lastWord: string, secondLastWord: string): boolean => {
+    // word length is the same
+    const lengthCheck = lastWord.length == secondLastWord.length;
+    if (lengthCheck === false) {
+      alert(
+        "Please make sure your word is of the same length as the start word"
+      );
+      return false;
+    }
+
+    // word consists of letters only
+    const lettersOnly = /^[A-Za-z]+$/.test(lastWord);
+    if (lettersOnly === false) {
+      alert("Please make sure your word only consists of letters");
+      return false;
+    }
+
+    // rule of doublet followed
+    const wordCheck =
+      [...lastWord].filter((char, i) => char !== secondLastWord[i]).length ===
+      1;
+    if (wordCheck === false) {
+      alert("Please make sure you're changing at most one character");
+      return false;
+    }
+
+    return true;
   };
 
   // levelData not yet fetched
