@@ -49,11 +49,10 @@ const Game: React.FC = () => {
       const isWin = lastWord === levelData?.endWord;
       if (isWin === true) {
         alert("Congratulations! You won this level!");
-        // mark isWin as true
-        setIsWin(true);
+        // turn isWin back to false
+        setIsWin(false);
         // clear out words
         setWords([""]);
-
         // update to next level
         setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
       } else {
@@ -113,10 +112,12 @@ const Game: React.FC = () => {
             value={word}
             onChange={(e) => handleChange(e.target.value)}
           ></input>
-          <button className="plus" onClick={handleAddWord}>
-            +
-          </button>
-          {index === words.length - 1 && (
+          {index == words.length - 1 && (
+            <button className="plus" onClick={handleAddWord}>
+              +
+            </button>
+          )}
+          {index !== 0 && index === words.length - 1 && (
             <button onClick={handleDeleteWord}>-</button>
           )}
         </div>
