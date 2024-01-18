@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { useGameLevel } from "@/hooks/useGameLevel";
 import { GameState } from "@/interfaces/GameState";
 import "../Game.css";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const Game: React.FC = () => {
   // store current state of winning
@@ -98,36 +103,140 @@ const Game: React.FC = () => {
   };
 
   // levelData not yet fetched
-  if (!levelData) return <div> Loading ... </div>;
+  if (!levelData) return <Typography>Loading...</Typography>;
 
   // print the start word and end word
   return (
-    <div className="container">
-      <h1> Game Level: {levelData.levelId} </h1>
-      <div className="input-container">
-        <p className="left-aligned">{levelData.startWord}</p>
+    <Container
+      maxWidth="xl" // Adjust to 'lg' or 'xl' for a larger container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        pt: "64px",
+        textAlign: "center",
+      }}
+    >
+      <Box
+        sx={{
+          width: "80%", // Increase this to make the box wider
+          maxWidth: "800px", // You can adjust this as needed
+          p: 4, // Padding inside the box for spacing
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left", // Center children horizontally
+          justifyContent: "center", // Center children vertically
+          gap: 3, // Space between items
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{
+            fontSize: "2.5rem", // Increase this to make the text larger
+            textAlign: "center",
+            mb: 4, // Increase bottom margin to add more space
+          }}
+        >
+          Game Level: {levelData.levelId}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: "2rem", // Adjust this value to match the TextField font size
+            textAlign: "left", // Center the text if needed
+            mb: 2, // Margin bottom for spacing
+          }}
+        >
+          {levelData.startWord}
+        </Typography>
         {words.map((word: string, index: number) => (
-          <div key={index} className="input-wrapper">
-            <div className="input-and-buttons">
-              <input
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start", // Aligns items to the start of the main axis
+              mb: 2,
+              gap: 1, // Adds a gap between the TextField box and buttons
+            }}
+          >
+            <Box
+              sx={{
+                width: "300px", // Set a fixed width for the TextField container
+              }}
+            >
+              <TextField
+                fullWidth // Ensures TextField occupies the full width of its parent Box
                 type="text"
                 value={word}
                 onChange={(e) => handleChange(e.target.value)}
-              ></input>
-              {index == words.length - 1 && (
-                <button className="plus" onClick={handleAddWord}>
+                margin="normal"
+                variant="outlined"
+                sx={{
+                  "& .MuiInputBase-input": {
+                    fontSize: "1.5rem", // Adjust the font size as needed
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    height: "auto", // Let the height be dynamic based on content
+                    padding: "18px", // More padding to increase the size
+                  },
+                  my: 2, // More vertical space
+                  width: "100%", // Use the full width of the parent box
+                }}
+              />
+            </Box>
+            {index === words.length - 1 && (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAddWord}
+                  sx={{
+                    fontSize: "1.5rem", // Increases the font size in the button
+                    width: "70px", // Adjust the width as needed
+                    height: "70px", // Adjust the height to match the input fields
+                    borderRadius: "10px", // Adjust the border-radius if needed
+                  }}
+                >
                   +
-                </button>
-              )}
-              {index !== 0 && index === words.length - 1 && (
-                <button onClick={handleDeleteWord}>-</button>
-              )}
-            </div>
-          </div>
+                </Button>
+              </>
+            )}
+            {index !== 0 && index === words.length - 1 && (
+              <>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleDeleteWord}
+                  sx={{
+                    fontSize: "1.5rem", // Increases the font size in the button
+                    width: "70px", // Adjust the width as needed
+                    height: "70px", // Adjust the height to match the input fields
+                    borderRadius: "10px", // Adjust the border-radius if needed
+                  }}
+                >
+                  -
+                </Button>
+              </>
+            )}
+          </Box>
         ))}
-        <p className="left-aligned">{levelData.endWord}</p>
-      </div>
-    </div>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: "2rem", // Adjust this value to match the TextField font size
+            textAlign: "left", // Center the text if needed
+            mb: 2, // Margin bottom for spacing
+          }}
+        >
+          {levelData.endWord}
+        </Typography>
+      </Box>
+    </Container>
   );
 };
 
