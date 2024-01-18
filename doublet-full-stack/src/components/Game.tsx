@@ -176,16 +176,19 @@ const Game: React.FC = () => {
                 onChange={(e) => handleChange(e.target.value)}
                 margin="normal"
                 variant="outlined"
+                //variant={index === words.length - 1 ? "outlined" : "filled"}
+                disabled={index !== words.length - 1}
                 sx={{
                   "& .MuiInputBase-input": {
                     fontSize: "1.5rem", // Adjust the font size as needed
                   },
                   "& .MuiOutlinedInput-root": {
                     height: "auto", // Let the height be dynamic based on content
-                    padding: "18px", // More padding to increase the size
+                    padding: "9px", // More padding to increase the size
                   },
                   my: 2, // More vertical space
                   width: "100%", // Use the full width of the parent box
+                  borderRadius: "20px", // Adjust the border-radius if needed
                 }}
               />
             </Box>
@@ -197,9 +200,9 @@ const Game: React.FC = () => {
                   onClick={handleAddWord}
                   sx={{
                     fontSize: "1.5rem", // Increases the font size in the button
-                    width: "70px", // Adjust the width as needed
-                    height: "70px", // Adjust the height to match the input fields
-                    borderRadius: "10px", // Adjust the border-radius if needed
+                    width: "80px", // Adjust the width as needed
+                    height: "80px", // Adjust the height to match the input fields
+                    borderRadius: "20px", // Adjust the border-radius if needed
                   }}
                 >
                   +
@@ -214,9 +217,9 @@ const Game: React.FC = () => {
                   onClick={handleDeleteWord}
                   sx={{
                     fontSize: "1.5rem", // Increases the font size in the button
-                    width: "70px", // Adjust the width as needed
-                    height: "70px", // Adjust the height to match the input fields
-                    borderRadius: "10px", // Adjust the border-radius if needed
+                    width: "80px", // Adjust the width as needed
+                    height: "80px", // Adjust the height to match the input fields
+                    borderRadius: "20px", // Adjust the border-radius if needed
                   }}
                 >
                   -
