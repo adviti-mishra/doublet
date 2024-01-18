@@ -13,6 +13,8 @@ const Game: React.FC = () => {
   const [isWin, setIsWin] = useState<boolean>(false);
   // store current state of levelId
   const [currentLevelId, setCurrentlevelId] = useState<string>("1");
+  // store number of tries left for the day
+  const [triesLeft, setTriesLeft] = useState<number>(3);
 
   // store levelData
   const levelData = useGameLevel(currentLevelId);
@@ -37,6 +39,15 @@ const Game: React.FC = () => {
     newWords.splice(newWords.length - 1, 1);
     // reflecting it in the list of words
     setWords(newWords);
+  };
+
+  const handleDeleteWords = () => {
+    // clear out words
+    setWords([""]);
+    // decrement number of tries
+    setTriesLeft((prev) => prev - 1);
+    // announce number of tries left
+    alert("You have used one more try");
   };
 
   const handleAddWord = () => {
@@ -143,6 +154,23 @@ const Game: React.FC = () => {
         >
           Game Level: {levelData.levelId}
         </Typography>
+        {words.length !== 1 && (
+          <>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDeleteWords}
+              sx={{
+                fontSize: "1.5rem", // Increases the font size in the button
+                width: "80px", // Adjust the width as needed
+                height: "80px", // Adjust the height to match the input fields
+                borderRadius: "20px", // Adjust the border-radius if needed
+              }}
+            >
+              RESET
+            </Button>
+          </>
+        )}
         <Typography
           variant="body1"
           sx={{
@@ -206,23 +234,6 @@ const Game: React.FC = () => {
                   }}
                 >
                   +
-                </Button>
-              </>
-            )}
-            {index !== 0 && index === words.length - 1 && (
-              <>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleDeleteWord}
-                  sx={{
-                    fontSize: "1.5rem", // Increases the font size in the button
-                    width: "80px", // Adjust the width as needed
-                    height: "80px", // Adjust the height to match the input fields
-                    borderRadius: "20px", // Adjust the border-radius if needed
-                  }}
-                >
-                  -
                 </Button>
               </>
             )}
