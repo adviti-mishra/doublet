@@ -5,6 +5,8 @@ import "../Game.css";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -165,7 +167,9 @@ const Game: React.FC = () => {
             variant="contained"
             onClick={handleDeleteWords}
             disabled={words.length === 1}
+            startIcon={<RestartAltIcon />}
             sx={{
+              textTranform: "none",
               backgroundColor: "#333", // Light grey when disabled
               color: "white", // Darker grey for text when disabled
               fontSize: "1.5rem", // Increases the font size in the button
@@ -174,7 +178,7 @@ const Game: React.FC = () => {
               borderRadius: "20px", // Adjust the border-radius if needed
             }}
           >
-            RESET
+            Restart
           </Button>
         </Box>
         <Typography
@@ -230,16 +234,18 @@ const Game: React.FC = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  startIcon={<AddIcon />}
                   onClick={handleAddWord}
                   sx={{
+                    textTransform: "none",
                     backgroundColor: "#333",
                     fontSize: "1.5rem", // Increases the font size in the button
-                    width: "80px", // Adjust the width as needed
+                    width: "200px", // Adjust the width as needed
                     height: "80px", // Adjust the height to match the input fields
                     borderRadius: "20px", // Adjust the border-radius if needed
                   }}
                 >
-                  +
+                  Add word
                 </Button>
               </>
             )}
