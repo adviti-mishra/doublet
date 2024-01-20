@@ -1,4 +1,5 @@
 .banner {
+  position: fixed;
   background-color: #333; /* Set your preferred background color */
   color: #fff; /* Set your preferred text color */
   padding: 20px 0; /* Increase padding at the top and bottom */
@@ -8,5 +9,6 @@
   top: 0;
   left: 0;
   right: 0;
-  /*z-index: 100; /* Set a higher z-index to ensure the banner is above other content */
+  width: 100%;
+  z-index: 1000; /* Set a higher z-index to ensure the banner is above other content */
 }

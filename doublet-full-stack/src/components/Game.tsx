@@ -121,6 +121,7 @@ const Game: React.FC = () => {
     <Container
       maxWidth="xl" // Adjust to 'lg' or 'xl' for a larger container
       sx={{
+        marginTop: "70px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -154,23 +155,28 @@ const Game: React.FC = () => {
         >
           Game Level: {levelData.levelId}
         </Typography>
-        {words.length !== 1 && (
-          <>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleDeleteWords}
-              sx={{
-                fontSize: "1.5rem", // Increases the font size in the button
-                width: "80px", // Adjust the width as needed
-                height: "80px", // Adjust the height to match the input fields
-                borderRadius: "20px", // Adjust the border-radius if needed
-              }}
-            >
-              RESET
-            </Button>
-          </>
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end", // Aligns the button to the right
+          }}
+        >
+          <Button
+            variant="contained"
+            onClick={handleDeleteWords}
+            disabled={words.length === 1}
+            sx={{
+              backgroundColor: "#333", // Light grey when disabled
+              color: "white", // Darker grey for text when disabled
+              fontSize: "1.5rem", // Increases the font size in the button
+              width: "160px", // Adjust the width as needed
+              height: "80px", // Adjust the height to match the input fields
+              borderRadius: "20px", // Adjust the border-radius if needed
+            }}
+          >
+            RESET
+          </Button>
+        </Box>
         <Typography
           variant="body1"
           sx={{
@@ -188,7 +194,6 @@ const Game: React.FC = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start", // Aligns items to the start of the main axis
-              mb: 2,
               gap: 1, // Adds a gap between the TextField box and buttons
             }}
           >
@@ -214,7 +219,7 @@ const Game: React.FC = () => {
                     height: "auto", // Let the height be dynamic based on content
                     padding: "9px", // More padding to increase the size
                   },
-                  my: 2, // More vertical space
+                  my: 1, // More vertical space
                   width: "100%", // Use the full width of the parent box
                   borderRadius: "20px", // Adjust the border-radius if needed
                 }}
@@ -227,6 +232,7 @@ const Game: React.FC = () => {
                   color="primary"
                   onClick={handleAddWord}
                   sx={{
+                    backgroundColor: "#333",
                     fontSize: "1.5rem", // Increases the font size in the button
                     width: "80px", // Adjust the width as needed
                     height: "80px", // Adjust the height to match the input fields
