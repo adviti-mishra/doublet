@@ -113,6 +113,7 @@ const Game: React.FC = () => {
     <Container
       maxWidth="xl" // Adjust to 'lg' or 'xl' for a larger container
       sx={{
+        backgroundColor: "#fafafa",
         marginTop: "70px",
         display: "flex",
         flexDirection: "column",
@@ -125,6 +126,7 @@ const Game: React.FC = () => {
     >
       <Box
         sx={{
+          backgroundColor: "#FFB563",
           width: "80%", // Increase this to make the box wider
           maxWidth: "800px", // You can adjust this as needed
           p: 4, // Padding inside the box for spacing
@@ -133,6 +135,13 @@ const Game: React.FC = () => {
           alignItems: "left", // Center children horizontally
           justifyContent: "center", // Center children vertically
           gap: 3, // Space between items
+          borderRadius: "20px",
+          boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", // This adds a shadow to create the lifted tile effect
+          // You can adjust the x-offset, y-offset, blur-radius, and spread-radius to get the desired effect
+          transition: "box-shadow 0.3s", // Smooth transition for the shadow, can be omitted if not needed
+          "&:hover": {
+            boxShadow: "0 8px 16px 0 rgba(0,0,0,0.3)", // Optional: Change shadow on hover for an interactive effect
+          },
         }}
       >
         <Typography
@@ -140,13 +149,13 @@ const Game: React.FC = () => {
           component="h1"
           gutterBottom
           sx={{
-            color: "#03254E",
+            color: "#392A16",
             fontSize: "2.5rem", // Increase this to make the text larger
             textAlign: "center",
             mb: 4, // Increase bottom margin to add more space
           }}
         >
-          Game Level: {levelData.levelId}
+          Level: {levelData.levelId}
         </Typography>
         <Box
           sx={{
@@ -157,20 +166,29 @@ const Game: React.FC = () => {
           <Button
             variant="contained"
             onClick={handleDeleteWords}
-            disabled={words.length === 1}
             startIcon={<RestartAltIcon />}
+            disabled={words.length === 1}
+            disableRipple
             sx={{
-              textTranform: "none",
-              backgroundColor: "#A2D6F9", // Light grey when disabled
+              textTransform: "none",
+              backgroundColor: "#CC5803", // Light grey when disabled
               color: "white", // Darker grey for text when disabled
               fontSize: "1.5rem", // Increases the font size in the button
               width: "160px", // Adjust the width as needed
               height: "80px", // Adjust the height to match the input fields
               borderRadius: "20px", // Adjust the border-radius if needed
               ":hover": {
-                backgroundColor: "#1E96FC", // Replace with your desired hover color
-                // You can also add other styles that should change on hover
+                backgroundColor: " #e26003",
+                // Add a transition effect for the hover state
+                transition: "background-color 0.3s ease-in-out",
               },
+              ":active": {
+                backgroundColor: "#b04b03",
+                // Add a transition effect for the hover state
+                transition: "background-color 0.3s ease-in-out",
+              },
+              // Define a transition for the base state as well
+              transition: "background-color 0.3s ease-in-out",
             }}
           >
             Restart
@@ -182,7 +200,7 @@ const Game: React.FC = () => {
             fontSize: "2rem", // Adjust this value to match the TextField font size
             textAlign: "left", // Center the text if needed
             mb: 2, // Margin bottom for spacing
-            color: "#545677",
+            color: "#392A16",
           }}
         >
           {levelData.startWord}
@@ -211,19 +229,30 @@ const Game: React.FC = () => {
                 variant="outlined"
                 error={index === words.length - 1 && errorMessage !== ""}
                 helperText={index === words.length - 1 ? errorMessage : ""}
-                //variant={index === words.length - 1 ? "outlined" : "filled"}
                 disabled={index !== words.length - 1}
                 sx={{
+                  height: "80px",
+                  borderRadius: "20px", // Adjust the border-radius if needed
                   "& .MuiInputBase-input": {
                     fontSize: "1.5rem", // Adjust the font size as needed
+                    padding: "10px", // Adjust padding to match your design
+                    borderRadius: "20px", // This should match the fieldset border-radius
                   },
                   "& .MuiOutlinedInput-root": {
-                    height: "auto", // Let the height be dynamic based on content
-                    padding: "9px", // More padding to increase the size
+                    borderRadius: "20px", // Ensure this matches the input border-radius
+                    backgroundColor: "#ffffff", // Set the background color for the entire component
+                    "& fieldset": {
+                      borderRadius: "20px", // Ensure this matches the input border-radius
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "primary.main", // Color when the TextField is focused
+                    },
+                    "&.Mui-error fieldset": {
+                      borderColor: "error.main", // Color when there is an error
+                    },
                   },
                   my: 1, // More vertical space
                   width: "100%", // Use the full width of the parent box
-                  borderRadius: "20px", // Adjust the border-radius if needed
                 }}
               />
             </Box>
@@ -231,20 +260,30 @@ const Game: React.FC = () => {
               <>
                 <Button
                   variant="contained"
-                  color="primary"
                   startIcon={<AddIcon />}
-                  disabled={errorMessage !== ""}
+                  disabled={
+                    errorMessage !== "" || words[words.length - 1].length === 0
+                  }
                   onClick={handleAddWord}
+                  disableRipple
                   sx={{
                     textTransform: "none",
-                    backgroundColor: "#A2D6F9",
+                    backgroundColor: "#CC5803",
                     fontSize: "1.5rem", // Increases the font size in the button
                     width: "200px", // Adjust the width as needed
                     height: "80px", // Adjust the height to match the input fields
                     borderRadius: "20px", // Adjust the border-radius if needed
                     ":hover": {
-                      backgroundColor: "#1E96FC",
+                      backgroundColor: "#e26003",
+                      transition: "background-color 0.3s ease-in-out",
                     },
+                    ":active": {
+                      backgroundColor: "#b04b03",
+                      // Add a transition effect for the hover state
+                      transition: "background-color 0.3s ease-in-out",
+                    },
+                    // Define a transition for the base state as well
+                    transition: "background-color 0.3s ease-in-out",
                   }}
                 >
                   Add word
@@ -259,7 +298,7 @@ const Game: React.FC = () => {
             fontSize: "2rem", // Adjust this value to match the TextField font size
             textAlign: "left", // Center the text if needed
             mb: 2, // Margin bottom for spacing
-            color: "#545677",
+            color: "#392A16",
           }}
         >
           {levelData.endWord}
