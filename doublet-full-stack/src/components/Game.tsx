@@ -17,12 +17,12 @@ const Game: React.FC = () => {
   const [currentLevelId, setCurrentlevelId] = useState<string>("1");
   // store number of tries left for the day
   const [triesLeft, setTriesLeft] = useState<number>(3);
-
   // store levelData
   const levelData = useGameLevel(currentLevelId);
-
   // store current state of words inputted
   const [words, setWords] = useState<string[]>([""]);
+  // store state of error message of most recent word
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   // reflect upper case input in list of words
   const handleChange = (value: string) => {
@@ -32,15 +32,8 @@ const Game: React.FC = () => {
     newWords[words.length - 1] = value.toUpperCase();
     // reflecting it in the list of words
     setWords(newWords);
-  };
-
-  const handleDeleteWord = () => {
-    // shallow copy of words
-    const newWords = [...words];
-    // delete most recent word
-    newWords.splice(newWords.length - 1, 1);
-    // reflecting it in the list of words
-    setWords(newWords);
+    // clearing out the error message since a new word / first word is being typed in
+    setErrorMessage("");
   };
 
   const handleDeleteWords = () => {
@@ -49,7 +42,6 @@ const Game: React.FC = () => {
     // decrement number of tries
     setTriesLeft((prev) => prev - 1);
     // announce number of tries left
-    alert("You have used one more try");
   };
 
   const handleAddWord = () => {
@@ -61,46 +53,44 @@ const Game: React.FC = () => {
     // access the second last word
     const secondLastWord =
       words.length > 1 ? words[words.length - 2] : levelData?.startWord;
-    // if valid,
-    if (secondLastWord != undefined && isValidWord(lastWord, secondLastWord)) {
-      // is end word?
-      const isWin = lastWord === levelData?.endWord;
-      if (isWin === true) {
-        alert("Congratulations! You won this level!");
-        // turn isWin back to false
-        setIsWin(false);
-        // clear out words
-        setWords([""]);
-        // update to next level
-        setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
+
+    if (secondLastWord !== undefined) {
+      // perform validation
+      const validationStatus = isValidWord(lastWord, secondLastWord);
+      // If invalid
+      if (validationStatus !== "") {
+        setErrorMessage(validationStatus);
       } else {
-        // add an empty word to the list of input words
-        setWords([...words, ""]);
+        // If valid
+        setErrorMessage(""); // Clear out error message
+        if (lastWord === levelData?.endWord) {
+          alert("Congratulations! You won this level!");
+          setIsWin(false);
+          setWords([""]);
+          setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
+        } else {
+          setWords([...words, ""]);
+        }
       }
     }
   };
 
-  const isValidWord = (lastWord: string, secondLastWord: string): boolean => {
+  const isValidWord = (lastWord: string, secondLastWord: string): string => {
     // word is not the same
     const sameWord = lastWord === secondLastWord;
     if (sameWord === true) {
-      alert("Please make sure you type a word different from the previous one");
-      return false;
+      return "Please make sure you type a word different from the previous one";
     }
     // word length is the same
     const lengthCheck = lastWord.length == secondLastWord.length;
     if (lengthCheck === false) {
-      alert(
-        "Please make sure your word is of the same length as the start word"
-      );
-      return false;
+      return "Please make sure your word is of the same length as the start word";
     }
 
     // word consists of letters only
     const lettersOnly = /^[A-Za-z]+$/.test(lastWord);
     if (lettersOnly === false) {
-      alert("Please make sure your word only consists of letters");
-      return false;
+      return "Please make sure your word only consists of letters";
     }
 
     // rule of doublet followed
@@ -108,11 +98,11 @@ const Game: React.FC = () => {
       [...lastWord].filter((char, i) => char !== secondLastWord[i]).length ===
       1;
     if (wordCheck === false) {
-      alert("Please make sure you're changing at most one character");
-      return false;
+      return "Please make sure you're changing at most one character";
     }
 
-    return true;
+    // no error
+    return "";
   };
 
   // levelData not yet fetched
@@ -150,6 +140,7 @@ const Game: React.FC = () => {
           component="h1"
           gutterBottom
           sx={{
+            color: "#03254E",
             fontSize: "2.5rem", // Increase this to make the text larger
             textAlign: "center",
             mb: 4, // Increase bottom margin to add more space
@@ -170,7 +161,7 @@ const Game: React.FC = () => {
             startIcon={<RestartAltIcon />}
             sx={{
               textTranform: "none",
-              backgroundColor: "#333", // Light grey when disabled
+              backgroundColor: "#1E96FC", // Light grey when disabled
               color: "white", // Darker grey for text when disabled
               fontSize: "1.5rem", // Increases the font size in the button
               width: "160px", // Adjust the width as needed
@@ -187,6 +178,7 @@ const Game: React.FC = () => {
             fontSize: "2rem", // Adjust this value to match the TextField font size
             textAlign: "left", // Center the text if needed
             mb: 2, // Margin bottom for spacing
+            color: "#545677",
           }}
         >
           {levelData.startWord}
@@ -213,6 +205,8 @@ const Game: React.FC = () => {
                 onChange={(e) => handleChange(e.target.value)}
                 margin="normal"
                 variant="outlined"
+                error={index === words.length - 1 && errorMessage !== ""}
+                helperText={index === words.length - 1 ? errorMessage : ""}
                 //variant={index === words.length - 1 ? "outlined" : "filled"}
                 disabled={index !== words.length - 1}
                 sx={{
@@ -235,10 +229,11 @@ const Game: React.FC = () => {
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}
+                  disabled={errorMessage !== ""}
                   onClick={handleAddWord}
                   sx={{
                     textTransform: "none",
-                    backgroundColor: "#333",
+                    backgroundColor: "#1E96FC",
                     fontSize: "1.5rem", // Increases the font size in the button
                     width: "200px", // Adjust the width as needed
                     height: "80px", // Adjust the height to match the input fields
@@ -257,6 +252,7 @@ const Game: React.FC = () => {
             fontSize: "2rem", // Adjust this value to match the TextField font size
             textAlign: "left", // Center the text if needed
             mb: 2, // Margin bottom for spacing
+            color: "#545677",
           }}
         >
           {levelData.endWord}
