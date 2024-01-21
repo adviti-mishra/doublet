@@ -161,12 +161,16 @@ const Game: React.FC = () => {
             startIcon={<RestartAltIcon />}
             sx={{
               textTranform: "none",
-              backgroundColor: "#1E96FC", // Light grey when disabled
+              backgroundColor: "#A2D6F9", // Light grey when disabled
               color: "white", // Darker grey for text when disabled
               fontSize: "1.5rem", // Increases the font size in the button
               width: "160px", // Adjust the width as needed
               height: "80px", // Adjust the height to match the input fields
               borderRadius: "20px", // Adjust the border-radius if needed
+              ":hover": {
+                backgroundColor: "#1E96FC", // Replace with your desired hover color
+                // You can also add other styles that should change on hover
+              },
             }}
           >
             Restart
@@ -233,11 +237,14 @@ const Game: React.FC = () => {
                   onClick={handleAddWord}
                   sx={{
                     textTransform: "none",
-                    backgroundColor: "#1E96FC",
+                    backgroundColor: "#A2D6F9",
                     fontSize: "1.5rem", // Increases the font size in the button
                     width: "200px", // Adjust the width as needed
                     height: "80px", // Adjust the height to match the input fields
                     borderRadius: "20px", // Adjust the border-radius if needed
+                    ":hover": {
+                      backgroundColor: "#1E96FC",
+                    },
                   }}
                 >
                   Add word
