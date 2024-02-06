@@ -9,6 +9,9 @@ import AddIcon from "@mui/icons-material/Add";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { isValidWord } from "@/utils/gameUtils";
+import GameButton from "./Game/GameButton";
+import GameLevelWords from "./Game/GameLevelWords";
 
 const Game: React.FC = () => {
   // store current state of winning
@@ -75,36 +78,6 @@ const Game: React.FC = () => {
     }
   };
 
-  const isValidWord = (lastWord: string, secondLastWord: string): string => {
-    // word is not the same
-    const sameWord = lastWord === secondLastWord;
-    if (sameWord === true) {
-      return "Please make sure you type a word different from the previous one";
-    }
-    // word length is the same
-    const lengthCheck = lastWord.length == secondLastWord.length;
-    if (lengthCheck === false) {
-      return "Please make sure your word is of the same length as the start word";
-    }
-
-    // word consists of letters only
-    const lettersOnly = /^[A-Za-z]+$/.test(lastWord);
-    if (lettersOnly === false) {
-      return "Please make sure your word only consists of letters";
-    }
-
-    // rule of doublet followed
-    const wordCheck =
-      [...lastWord].filter((char, i) => char !== secondLastWord[i]).length ===
-      1;
-    if (wordCheck === false) {
-      return "Please make sure you're changing at most one character";
-    }
-
-    // no error
-    return "";
-  };
-
   // levelData not yet fetched
   if (!levelData) return <Typography>Loading...</Typography>;
 
@@ -113,7 +86,7 @@ const Game: React.FC = () => {
     <Container
       maxWidth="xl" // Adjust to 'lg' or 'xl' for a larger container
       sx={{
-        backgroundColor: "#fafafa",
+        backgroundColor: "#FEF5EF",
         marginTop: "70px",
         display: "flex",
         flexDirection: "column",
@@ -126,7 +99,7 @@ const Game: React.FC = () => {
     >
       <Box
         sx={{
-          backgroundColor: "#FFB563",
+          backgroundColor: "#D6E3F8",
           width: "80%", // Increase this to make the box wider
           maxWidth: "800px", // You can adjust this as needed
           p: 4, // Padding inside the box for spacing
@@ -163,48 +136,14 @@ const Game: React.FC = () => {
             justifyContent: "flex-end", // Aligns the button to the right
           }}
         >
-          <Button
-            variant="contained"
+          <GameButton
             onClick={handleDeleteWords}
             startIcon={<RestartAltIcon />}
             disabled={words.length === 1}
-            disableRipple
-            sx={{
-              textTransform: "none",
-              backgroundColor: "#CC5803", // Light grey when disabled
-              color: "white", // Darker grey for text when disabled
-              fontSize: "1.5rem", // Increases the font size in the button
-              width: "160px", // Adjust the width as needed
-              height: "80px", // Adjust the height to match the input fields
-              borderRadius: "20px", // Adjust the border-radius if needed
-              ":hover": {
-                backgroundColor: " #e26003",
-                // Add a transition effect for the hover state
-                transition: "background-color 0.3s ease-in-out",
-              },
-              ":active": {
-                backgroundColor: "#b04b03",
-                // Add a transition effect for the hover state
-                transition: "background-color 0.3s ease-in-out",
-              },
-              // Define a transition for the base state as well
-              transition: "background-color 0.3s ease-in-out",
-            }}
-          >
-            Restart
-          </Button>
+            text={levelData.startWord}
+          />
         </Box>
-        <Typography
-          variant="body1"
-          sx={{
-            fontSize: "2rem", // Adjust this value to match the TextField font size
-            textAlign: "left", // Center the text if needed
-            mb: 2, // Margin bottom for spacing
-            color: "#392A16",
-          }}
-        >
-          {levelData.startWord}
-        </Typography>
+        <GameLevelWords word={levelData.startWord} />
         {words.map((word: string, index: number) => (
           <Box
             key={index}
