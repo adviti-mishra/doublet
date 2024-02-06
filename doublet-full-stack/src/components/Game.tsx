@@ -140,7 +140,7 @@ const Game: React.FC = () => {
             onClick={handleDeleteWords}
             startIcon={<RestartAltIcon />}
             disabled={words.length === 1}
-            text={levelData.startWord}
+            text="Reset"
           />
         </Box>
         <GameLevelWords word={levelData.startWord} />
