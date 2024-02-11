@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useGameLevel } from "@/hooks/useGameLevel";
-import { GameState } from "@/interfaces/GameState";
+// import { GameState } from "@/interfaces/GameState";
 import "../Game.css";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
@@ -199,6 +199,12 @@ const Game: React.FC = () => {
                 type="text"
                 value={word}
                 onChange={(e) => handleChange(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault(); // Prevent the default action to avoid form submission if wrapped in a form
+                    handleAddWord(); // Call the same function as the button click
+                  }
+                }}
                 margin="normal"
                 variant="outlined"
                 error={index === inputWords.length - 1 && errorMessage !== ""}
