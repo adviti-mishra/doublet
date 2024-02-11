@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGameLevel } from "@/hooks/useGameLevel";
 import { GameState } from "@/interfaces/GameState";
 import "../Game.css";
@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { isValidWord } from "@/utils/gameUtils";
 import GameButton from "./Game/GameButton";
 import GameLevelWords from "./Game/GameLevelWords";
+import { useWordChecker } from "react-word-checker";
 
 const Game: React.FC = () => {
   // store current state of winning
@@ -23,25 +24,52 @@ const Game: React.FC = () => {
   // store levelData
   const levelData = useGameLevel(currentLevelId);
   // store current state of words inputted
-  const [words, setWords] = useState<string[]>([""]);
+  const [inputWords, setInputWords] = useState<string[]>([""]);
   // store state of error message of most recent word
   const [errorMessage, setErrorMessage] = useState<string>("");
+  // store state to trigger word checks
+  const [wordToCheck, setWordToCheck] = useState("");
+
+  const { words, isLoading, wordExists } = useWordChecker("en");
+
+  useEffect(() => {
+    if (wordToCheck && !isLoading) {
+      const exists = wordExists(wordToCheck.toUpperCase()); // Ensuring case-insensitivity
+      if (!exists) {
+        setErrorMessage("Please enter a valid English word");
+      } else {
+        // word exists
+        // proceed with post-validation success logic
+        setErrorMessage(""); // Clear out error message
+        if (wordToCheck === levelData?.endWord) {
+          alert("Congratulations! You won this level!");
+          setIsWin(false);
+          setInputWords([""]);
+          setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
+        } else {
+          setInputWords([...inputWords, ""]);
+        }
+        // Reset wordToCheck after checking
+        setWordToCheck("");
+      }
+    }
+  }, [wordToCheck, isLoading, wordExists]);
 
   // reflect upper case input in list of words
   const handleChange = (value: string) => {
     // shallow copy of words
-    const newWords = [...words];
+    const newInputWords = [...inputWords];
     // adding new input in upper case
-    newWords[words.length - 1] = value.toUpperCase();
+    newInputWords[inputWords.length - 1] = value.toUpperCase();
     // reflecting it in the list of words
-    setWords(newWords);
+    setInputWords(newInputWords);
     // clearing out the error message since a new word / first word is being typed in
     setErrorMessage("");
   };
 
   const handleDeleteWords = () => {
     // clear out words
-    setWords([""]);
+    setInputWords([""]);
     // decrement number of tries
     setTriesLeft((prev) => prev - 1);
     // announce number of tries left
@@ -52,10 +80,12 @@ const Game: React.FC = () => {
       return;
     }
     // access the last word
-    const lastWord = words[words.length - 1];
+    const lastWord = inputWords[inputWords.length - 1];
     // access the second last word
     const secondLastWord =
-      words.length > 1 ? words[words.length - 2] : levelData?.startWord;
+      inputWords.length > 1
+        ? inputWords[inputWords.length - 2]
+        : levelData?.startWord;
 
     if (secondLastWord !== undefined) {
       // perform validation
@@ -63,18 +93,23 @@ const Game: React.FC = () => {
       // If invalid
       if (validationStatus !== "") {
         setErrorMessage(validationStatus);
-      } else {
-        // If valid
-        setErrorMessage(""); // Clear out error message
-        if (lastWord === levelData?.endWord) {
-          alert("Congratulations! You won this level!");
-          setIsWin(false);
-          setWords([""]);
-          setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
-        } else {
-          setWords([...words, ""]);
-        }
+        return;
       }
+      // valid
+      // perform valid English word check
+      setWordToCheck(lastWord);
+
+      // else {
+      // If valid
+      // setErrorMessage(""); // Clear out error message
+      // if (lastWord === levelData?.endWord) {
+      //  alert("Congratulations! You won this level!");
+      //  setIsWin(false);
+      //  setWords([""]);
+      //  setCurrentlevelId((parseInt(currentLevelId) + 1).toString());
+      // } else {
+      //  setWords([...words, ""]);
+      //  }
     }
   };
 
@@ -86,7 +121,7 @@ const Game: React.FC = () => {
     <Container
       maxWidth="xl" // Adjust to 'lg' or 'xl' for a larger container
       sx={{
-        backgroundColor: "#FEF5EF",
+        backgroundColor: "#FAF0CA",
         marginTop: "70px",
         display: "flex",
         flexDirection: "column",
@@ -99,7 +134,7 @@ const Game: React.FC = () => {
     >
       <Box
         sx={{
-          backgroundColor: "#D6E3F8",
+          backgroundColor: "#F4D35E",
           width: "80%", // Increase this to make the box wider
           maxWidth: "800px", // You can adjust this as needed
           p: 4, // Padding inside the box for spacing
@@ -139,12 +174,12 @@ const Game: React.FC = () => {
           <GameButton
             onClick={handleDeleteWords}
             startIcon={<RestartAltIcon />}
-            disabled={words.length === 1}
+            disabled={inputWords.length === 1}
             text="Reset"
           />
         </Box>
         <GameLevelWords word={levelData.startWord} />
-        {words.map((word: string, index: number) => (
+        {inputWords.map((word: string, index: number) => (
           <Box
             key={index}
             sx={{
@@ -166,9 +201,9 @@ const Game: React.FC = () => {
                 onChange={(e) => handleChange(e.target.value)}
                 margin="normal"
                 variant="outlined"
-                error={index === words.length - 1 && errorMessage !== ""}
-                helperText={index === words.length - 1 ? errorMessage : ""}
-                disabled={index !== words.length - 1}
+                error={index === inputWords.length - 1 && errorMessage !== ""}
+                helperText={index === inputWords.length - 1 ? errorMessage : ""}
+                disabled={index !== inputWords.length - 1}
                 sx={{
                   height: "80px",
                   borderRadius: "20px", // Adjust the border-radius if needed
@@ -195,13 +230,14 @@ const Game: React.FC = () => {
                 }}
               />
             </Box>
-            {index === words.length - 1 && (
+            {index === inputWords.length - 1 && (
               <>
                 <Button
                   variant="contained"
                   startIcon={<AddIcon />}
                   disabled={
-                    errorMessage !== "" || words[words.length - 1].length === 0
+                    errorMessage !== "" ||
+                    inputWords[inputWords.length - 1].length === 0
                   }
                   onClick={handleAddWord}
                   disableRipple

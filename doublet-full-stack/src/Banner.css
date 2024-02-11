@@ -1,7 +1,8 @@
 .banner {
+  display: flex;
   position: fixed;
-  background-color: #e4bb97; /* Set your preferred background color */
-  color: #9d5c63; /* Set your preferred text color */
+  background-color: #442220; /* Set your preferred background color */
+  color: white; /* Set your preferred text color */
   padding: 30px 0; /* Increase padding at the top and bottom */
   font-size: 24px; /* Increase the font size */
   text-align: center;
@@ -11,4 +12,14 @@
   right: 0;
   width: 100%;
   z-index: 1000; /* Set a higher z-index to ensure the banner is above other content */
+}
+
+.banner-content {
+  flex: 1; /* Allows the text to take up the available space, centering it */
+  text-align: center; /* Ensures text is centered within its container */
+}
+
+.info-icon {
+  position: absolute; /* Position the icon absolutely within the banner */
+  right: 40px; /* Position towards the right end of the banner */
 }

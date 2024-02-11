@@ -1,3 +1,5 @@
+import { useWordChecker } from "react-word-checker";
+
 export const isValidWord = (
   lastWord: string,
   secondLastWord: string
@@ -23,7 +25,7 @@ export const isValidWord = (
   const wordCheck =
     [...lastWord].filter((char, i) => char !== secondLastWord[i]).length === 1;
   if (wordCheck === false) {
-    return "Please make sure you're changing at most one character";
+    return "Please make sure you're changing exactly one character";
   }
 
   // no error
