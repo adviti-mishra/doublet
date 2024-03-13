@@ -17,15 +17,14 @@ const GameButton: React.FC<GameButtonProps> = ({
       disableRipple
       sx={{
         textTransform: "none",
-        backgroundColor: "#CC5803", // Light grey when disabled
-        color: "white", // Darker grey for text when disabled
+        boxSizing: "border-box",
+        backgroundColor: "#CC5803",
         fontSize: "1.5rem", // Increases the font size in the button
-        width: "160px", // Adjust the width as needed
+        width: "200px", // Adjust the width as needed
         height: "80px", // Adjust the height to match the input fields
         borderRadius: "20px", // Adjust the border-radius if needed
         ":hover": {
-          backgroundColor: " #e26003",
-          // Add a transition effect for the hover state
+          backgroundColor: "#e26003",
           transition: "background-color 0.3s ease-in-out",
         },
         ":active": {

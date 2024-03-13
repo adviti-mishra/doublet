@@ -49,9 +49,9 @@ const Game: React.FC = () => {
         } else {
           setInputWords([...inputWords, ""]);
         }
-        // Reset wordToCheck after checking
-        setWordToCheck("");
       }
+      // Reset wordToCheck after checking
+      setWordToCheck("");
     }
   }, [wordToCheck, isLoading, wordExists]);
 
@@ -93,11 +93,11 @@ const Game: React.FC = () => {
       // If invalid
       if (validationStatus !== "") {
         setErrorMessage(validationStatus);
-        return;
+      } else {
+        setWordToCheck(lastWord);
       }
       // valid
       // perform valid English word check
-      setWordToCheck(lastWord);
 
       // else {
       // If valid
@@ -116,7 +116,6 @@ const Game: React.FC = () => {
   // levelData not yet fetched
   if (!levelData) return <Typography>Loading...</Typography>;
 
-  // print the start word and end word
   return (
     <Container
       maxWidth="xl" // Adjust to 'lg' or 'xl' for a larger container
@@ -165,6 +164,20 @@ const Game: React.FC = () => {
         >
           Level: {levelData.levelId}
         </Typography>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{
+            color: "#392A16",
+            fontSize: "1.5rem", // Increase this to make the text larger
+            textAlign: "center",
+            mb: 4, // Increase bottom margin to add more space
+          }}
+        >
+          {triesLeft}
+          {triesLeft == 1 ? " try left" : " tries left"}
+        </Typography>
         <Box
           sx={{
             display: "flex",
@@ -184,7 +197,7 @@ const Game: React.FC = () => {
             key={index}
             sx={{
               display: "flex",
-              alignItems: "center",
+              alignItems: "flex-start",
               justifyContent: "flex-start", // Aligns items to the start of the main axis
               gap: 1, // Adds a gap between the TextField box and buttons
             }}
@@ -205,20 +218,23 @@ const Game: React.FC = () => {
                     handleAddWord(); // Call the same function as the button click
                   }
                 }}
-                margin="normal"
+                //margin="normal"
                 variant="outlined"
                 error={index === inputWords.length - 1 && errorMessage !== ""}
                 helperText={index === inputWords.length - 1 ? errorMessage : ""}
                 disabled={index !== inputWords.length - 1}
+                autoFocus={index === inputWords.length - 1}
                 sx={{
-                  height: "80px",
+                  // height: "80px",  // removed with Brian
+                  boxSizing: "border-box",
                   borderRadius: "20px", // Adjust the border-radius if needed
                   "& .MuiInputBase-input": {
                     fontSize: "1.5rem", // Adjust the font size as needed
-                    padding: "10px", // Adjust padding to match your design
+                    // padding: "10px", // Adjust padding to match your design
                     borderRadius: "20px", // This should match the fieldset border-radius
                   },
                   "& .MuiOutlinedInput-root": {
+                    height: "80px",
                     borderRadius: "20px", // Ensure this matches the input border-radius
                     backgroundColor: "#ffffff", // Set the background color for the entire component
                     "& fieldset": {
@@ -233,43 +249,20 @@ const Game: React.FC = () => {
                   },
                   my: 1, // More vertical space
                   width: "100%", // Use the full width of the parent box
+                  margin: 0,
                 }}
               />
             </Box>
             {index === inputWords.length - 1 && (
-              <>
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  disabled={
-                    errorMessage !== "" ||
-                    inputWords[inputWords.length - 1].length === 0
-                  }
-                  onClick={handleAddWord}
-                  disableRipple
-                  sx={{
-                    textTransform: "none",
-                    backgroundColor: "#CC5803",
-                    fontSize: "1.5rem", // Increases the font size in the button
-                    width: "200px", // Adjust the width as needed
-                    height: "80px", // Adjust the height to match the input fields
-                    borderRadius: "20px", // Adjust the border-radius if needed
-                    ":hover": {
-                      backgroundColor: "#e26003",
-                      transition: "background-color 0.3s ease-in-out",
-                    },
-                    ":active": {
-                      backgroundColor: "#b04b03",
-                      // Add a transition effect for the hover state
-                      transition: "background-color 0.3s ease-in-out",
-                    },
-                    // Define a transition for the base state as well
-                    transition: "background-color 0.3s ease-in-out",
-                  }}
-                >
-                  Add word
-                </Button>
-              </>
+              <GameButton
+                onClick={handleAddWord}
+                startIcon={<AddIcon />}
+                disabled={
+                  errorMessage !== "" ||
+                  inputWords[inputWords.length - 1].length === 0
+                }
+                text="Add word"
+              />
             )}
           </Box>
         ))}
