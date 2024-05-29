@@ -12,12 +12,13 @@ import { isValidWord } from "@/utils/gameUtils";
 import GameButton from "./Game/GameButton";
 import GameLevelWords from "./Game/GameLevelWords";
 import { useWordChecker } from "react-word-checker";
+import { GameProps } from "@/interfaces/GameProps";
 
-const Game: React.FC = () => {
+const Game: React.FC<GameProps> = ({ level }) => {
   // store current state of winning
   const [isWin, setIsWin] = useState<boolean>(false);
   // store current state of levelId
-  const [currentLevelId, setCurrentlevelId] = useState<string>("1");
+  const [currentLevelId, setCurrentlevelId] = useState<string>(level.toString());
   // store number of tries left for the day
   const [triesLeft, setTriesLeft] = useState<number>(3);
   // store levelData
