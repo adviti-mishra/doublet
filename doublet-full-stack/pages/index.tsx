@@ -2,7 +2,7 @@ import React from "react";
 import Game from "../src/components/Game";
 import "../src/Banner.css";
 import InfoIcon from "@mui/icons-material/Info";
-
+import DashBoard from "@/components/DashBoard";
 const Home: React.FC = () => {
   return (
     <div>
@@ -12,8 +12,9 @@ const Home: React.FC = () => {
           <InfoIcon />
         </div>
       </div>
-      <Game />
+      <DashBoard />
     </div>
+
   );
 };
 

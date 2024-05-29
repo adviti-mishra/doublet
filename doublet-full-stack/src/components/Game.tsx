@@ -4,7 +4,6 @@ import { useGameLevel } from "@/hooks/useGameLevel";
 import "../Game.css";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Box from "@mui/material/Box";
@@ -176,7 +175,7 @@ const Game: React.FC = () => {
           }}
         >
           {triesLeft}
-          {triesLeft == 1 ? " try left" : " tries left"}
+          {triesLeft == 1 ? " attempt left" : " attempts left"}
         </Typography>
         <Box
           sx={{
